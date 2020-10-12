@@ -1,15 +1,15 @@
 package agh.cs.lab1;
 
 import static java.lang.System.out;
-import java.util.Map;
-import java.util.TreeMap;
+
+import java.util.*;
 import java.util.stream.Stream;
 
 public class World {
     public static void main(String[] args) {
         out.println("Start");
-        Stream<String> directionsStream = Stream.of(args);
-        Direction[] directions = directionsStream.map(World::mapToDirection).toArray(Direction[]::new);
+        Stream<Direction> directionsStream = Stream.of(args).filter(World::validDirection).map(World::stringToDirection);
+        Direction[] directions = directionsStream.toArray(Direction[]::new);
         run(directions);
         out.println("Stop");
     }
@@ -19,13 +19,23 @@ public class World {
         directionsStream.map(World::mapToAction).forEach(System.out::println);
     }
 
-    public static Direction mapToDirection(String sign) {
-        Map<String, Direction> directionMap = new TreeMap<>();
-        directionMap.put("f", Direction.FORWARD);
-        directionMap.put("b", Direction.BACKWARD);
-        directionMap.put("l", Direction.LEFT);
-        directionMap.put("r", Direction.RIGHT);
-        return directionMap.get(sign);
+    public static Boolean validDirection(String sign) {
+        List<String> validDirections = Arrays.asList(new String[]{"f", "b", "l", "r"});
+        return validDirections.contains(sign);
+    }
+
+    public static Direction stringToDirection(String sign) {
+        switch (sign) {
+            case "f":
+                return Direction.FORWARD;
+            case "b":
+                return Direction.BACKWARD;
+            case "l":
+                return Direction.LEFT;
+            case "t":
+                return Direction.RIGHT;
+        }
+        return Direction.FORWARD;
     }
 
     public static String mapToAction(Direction dir) {
