@@ -2,9 +2,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RectangularMap implements IWorldMap {
-    private Integer mapWidth;
-    private Integer mapHeight;
-    private List<Animal> animals = new ArrayList();
+    private final Integer mapWidth;
+    private final Integer mapHeight;
+    private final List<Animal> animals = new ArrayList();
 
     public RectangularMap(Integer width, Integer height) {
         mapWidth = width;
@@ -35,7 +35,7 @@ public class RectangularMap implements IWorldMap {
     @Override
     public boolean isOccupied(Vector2d position) {
         for (Animal animal : animals) {
-            if (animal.getPosition() == position) {
+            if (animal.getPosition().equals(position)) {
                 return true;
             }
         }
@@ -45,7 +45,7 @@ public class RectangularMap implements IWorldMap {
     @Override
     public Object objectAt(Vector2d position) {
         for (Animal animal : animals) {
-            if (animal.getPosition() == position) {
+            if (animal.getPosition().equals(position)) {
                 return animal;
             }
         }
@@ -54,6 +54,6 @@ public class RectangularMap implements IWorldMap {
 
     @Override
     public String toString() {
-        return new MapVisualizer(this).draw(new Vector2d(0,0), new Vector2d(mapWidth, mapHeight));
+        return new MapVisualizer(this).draw(new Vector2d(0, 0), new Vector2d(mapWidth, mapHeight));
     }
 }

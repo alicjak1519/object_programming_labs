@@ -4,6 +4,8 @@ public class World {
         IWorldMap map = new RectangularMap(10, 5);
         map.place(new Animal("Squirrel John", map));
         map.place(new Animal("Squirrel Julia", map, new Vector2d(3, 4)));
+        System.out.println(map);
+
         map.run(directions);
 
         System.out.println(map);

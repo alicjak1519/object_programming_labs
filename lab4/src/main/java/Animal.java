@@ -28,7 +28,7 @@ public class Animal {
     }
 
     public void move(MoveDirection direction) {
-        Vector2d startPosition = position;
+        Vector2d newPosition = new Vector2d(-1, -1);
         switch (direction) {
             case RIGHT:
                 mapDirection = mapDirection.next();
@@ -39,43 +39,41 @@ public class Animal {
             case FORWARD:
                 switch (mapDirection) {
                     case NORTH:
-                        position = position.add(new Vector2d(0, 1));
+                        newPosition = position.add(new Vector2d(0, 1));
                         break;
                     case EAST:
-                        position = position.add(new Vector2d(1, 0));
+                        newPosition = position.add(new Vector2d(1, 0));
                         break;
                     case WEST:
-                        position = position.add(new Vector2d(-1, 0));
+                        newPosition = position.add(new Vector2d(-1, 0));
                         break;
                     case SOUTH:
-                        position = position.add(new Vector2d(0, -1));
+                        newPosition = position.add(new Vector2d(0, -1));
                         break;
                 }
                 break;
             case BACKWARD:
                 switch (mapDirection) {
                     case NORTH:
-                        position = position.add(new Vector2d(0, -1));
+                        newPosition = position.add(new Vector2d(0, -1));
                         break;
                     case EAST:
-                        position = position.add(new Vector2d(-1, 0));
+                        newPosition = position.add(new Vector2d(-1, 0));
                         break;
                     case WEST:
-                        position = position.add(new Vector2d(1, 0));
+                        newPosition = position.add(new Vector2d(1, 0));
                         break;
                     case SOUTH:
-                        position = position.add(new Vector2d(0, 1));
+                        newPosition = position.add(new Vector2d(0, 1));
                         break;
                 }
                 break;
         }
-        if (position.x < 0 || position.x > 4 || position.y < 0 || position.y > 4) {
-            position = startPosition;
+
+        if (thisMap.canMoveTo(new Vector2d(newPosition.x, newPosition.y))) {
+            position = newPosition;
         }
 
-        if (!thisMap.canMoveTo(new Vector2d(position.x, position.y))) {
-            position = startPosition;
-        }
     }
 
     @Override
