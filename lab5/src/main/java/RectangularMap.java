@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 import java.util.List;
 
-public class RectangularMap implements IWorldMap {
+public class RectangularMap extends AbstractWorldMap {
     private final Integer mapWidth;
     private final Integer mapHeight;
     private final List<Animal> animals = new ArrayList();
@@ -14,32 +14,6 @@ public class RectangularMap implements IWorldMap {
     @Override
     public boolean canMoveTo(Vector2d position) {
         return !(position.x > mapWidth || position.x < 0 || position.y > mapHeight || position.y < 0 || isOccupied(position));
-    }
-
-    @Override
-    public boolean place(Animal animal) {
-        if (isOccupied(animal.getPosition())) {
-            return false;
-        }
-        animals.add(animal);
-        return true;
-    }
-
-    @Override
-    public void run(MoveDirection[] directions) {
-        for (int i = 0; i < directions.length; i++) {
-            animals.get(i % animals.size()).move(directions[i]);
-        }
-    }
-
-    @Override
-    public boolean isOccupied(Vector2d position) {
-        for (Animal animal : animals) {
-            if (animal.getPosition().equals(position)) {
-                return true;
-            }
-        }
-        return false;
     }
 
     @Override

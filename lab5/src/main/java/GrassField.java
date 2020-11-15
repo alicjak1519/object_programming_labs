@@ -5,10 +5,9 @@ import java.util.Random;
 import static java.lang.StrictMath.sqrt;
 
 
-public class GrassField implements IWorldMap {
+public class GrassField extends AbstractWorldMap {
     private final List<Grass> grasses = new ArrayList();
     private final List<Animal> animals = new ArrayList();
-
 
     public GrassField(int grassNumber) {
         for (int i = 0; i < grassNumber; i++) {
@@ -38,34 +37,6 @@ public class GrassField implements IWorldMap {
         return true;
     }
 
-    @Override
-    public boolean place(Animal animal) {
-        if (!canMoveTo(animal.getPosition())) {
-            return false;
-        }
-        animals.add(animal);
-        return true;
-    }
-
-    @Override
-    public void run(MoveDirection[] directions) {
-        for (int i = 0; i < directions.length; i++) {
-            animals.get(i % animals.size()).move(directions[i]);
-        }
-    }
-
-    @Override
-    public boolean isOccupied(Vector2d position) {
-        for (Grass grass : grasses) {
-            if (grass.getPosition().equals(position)) {
-                return true;
-            }
-            if (!canMoveTo(position)) {
-                return true;
-            }
-        }
-        return false;
-    }
 
     @Override
     public Object objectAt(Vector2d position) {
