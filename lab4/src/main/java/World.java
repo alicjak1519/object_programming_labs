@@ -2,12 +2,10 @@ public class World {
     public static void main(String[] args) {
         MoveDirection[] directions = new OptionsParser().parse(args);
         IWorldMap map = new RectangularMap(10, 5);
-        map.place(new Animal("Squirrel John", map));
-        map.place(new Animal("Squirrel Julia", map, new Vector2d(3, 4)));
+        Vector2d[] positions = { new Vector2d(2,2), new Vector2d(3,4) };
+        IEngine engine = new SimulationEngine(directions, map, positions);
         System.out.println(map);
-
-        map.run(directions);
-
+        engine.run();
         System.out.println(map);
     }
 }

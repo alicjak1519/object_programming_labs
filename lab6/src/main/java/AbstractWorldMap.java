@@ -1,18 +1,21 @@
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 public abstract class AbstractWorldMap implements IWorldMap {
-    protected final List<Animal> animals = new ArrayList();
+    protected Map<Vector2d, Animal> animals = new HashMap<>();
 
     public abstract boolean canMoveTo(Vector2d position);
 
-
     public boolean place(Animal animal) {
-        if (isOccupied(animal.getPosition())) {
-            return false;
+        try {
+            if (isOccupied(animal.getPosition())) {
+                return false;
+            }
+            animals.put(animal.getPosition(), animal);
+            return true;
+        } catch (IllegalArgumentException ex) {
+            throw new IllegalArgumentException(animal.getPosition() + " is occupied by other animal");
         }
-        animals.add(animal);
-        return true;
     }
 
     public void run(MoveDirection[] directions) {
@@ -22,12 +25,11 @@ public abstract class AbstractWorldMap implements IWorldMap {
     }
 
     public boolean isOccupied(Vector2d position) {
-        for (Animal animal : animals) {
-            if (animal.getPosition().equals(position)) {
-                return true;
-            }
+        for (Map.Entry<Vector2d, Animal> entry : animals.entrySet()) {
+            Vector2d key = entry.getKey();
+            Animal value = entry.getValue();
         }
-        return false;
+        return true;
     }
 
     public String toString() {

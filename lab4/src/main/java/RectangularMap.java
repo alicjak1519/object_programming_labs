@@ -53,6 +53,11 @@ public class RectangularMap implements IWorldMap {
     }
 
     @Override
+    public List<Animal> getAnimals() {
+        return animals;
+    }
+
+    @Override
     public String toString() {
         return new MapVisualizer(this).draw(new Vector2d(0, 0), new Vector2d(mapWidth, mapHeight));
     }
