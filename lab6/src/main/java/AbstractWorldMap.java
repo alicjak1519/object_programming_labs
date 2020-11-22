@@ -1,8 +1,11 @@
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-public abstract class AbstractWorldMap implements IWorldMap {
-    protected Map<Vector2d, Animal> animals = new HashMap<>();
+public abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObserver{
+    protected Map<Vector2d, Animal> animalsMap = new HashMap<>();
+    protected List<Animal> animals = new ArrayList();
 
     public abstract boolean canMoveTo(Vector2d position);
 
@@ -11,7 +14,8 @@ public abstract class AbstractWorldMap implements IWorldMap {
             if (isOccupied(animal.getPosition())) {
                 return false;
             }
-            animals.put(animal.getPosition(), animal);
+            animals.add(animal);
+            animalsMap.put(animal.getPosition(), animal);
             return true;
         } catch (IllegalArgumentException ex) {
             throw new IllegalArgumentException(animal.getPosition() + " is occupied by other animal");
@@ -25,11 +29,19 @@ public abstract class AbstractWorldMap implements IWorldMap {
     }
 
     public boolean isOccupied(Vector2d position) {
-        for (Map.Entry<Vector2d, Animal> entry : animals.entrySet()) {
+        for (Map.Entry<Vector2d, Animal> entry : animalsMap.entrySet()) {
             Vector2d key = entry.getKey();
-            Animal value = entry.getValue();
+            if (key == position) {
+                return true;
+            }
         }
-        return true;
+        return false;
+    }
+
+    public void positionChanged(Vector2d oldPosition, Vector2d newPosition) {
+       Animal animal = animalsMap.get(oldPosition);
+       animalsMap.remove(oldPosition);
+       animalsMap.put(newPosition, animal);
     }
 
     public String toString() {

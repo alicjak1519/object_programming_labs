@@ -1,12 +1,13 @@
+import java.util.ArrayList;
+import java.util.List;
+
 public class Animal {
     private final String name;
     private MapDirection mapDirection = MapDirection.NORTH;
     private Vector2d position = new Vector2d(2, 2);
-    private IWorldMap thisMap;
+    private final IWorldMap thisMap;
+    private final List<IPositionChangeObserver> observers = new ArrayList();
 
-    public Animal(String animalName) {
-        name = animalName;
-    }
 
     public Animal(String animalName, IWorldMap map) {
         name = animalName;
@@ -71,9 +72,24 @@ public class Animal {
         }
 
         if (thisMap.canMoveTo(new Vector2d(newPosition.x, newPosition.y))) {
+            positionChanged(position, newPosition);
             position = newPosition;
         }
 
+    }
+
+    void addObserver(IPositionChangeObserver observer) {
+        observers.add(observer);
+    }
+
+    void removeObserver(IPositionChangeObserver observer) {
+        observers.remove(observer);
+    }
+
+    void positionChanged(Vector2d oldPosition, Vector2d newPosition) {
+        for (IPositionChangeObserver observer : observers) {
+            observer.positionChanged(oldPosition, newPosition);
+        }
     }
 
     @Override

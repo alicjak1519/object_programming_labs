@@ -1,3 +1,5 @@
+import java.util.Map;
+
 public class RectangularMap extends AbstractWorldMap {
     private final Integer mapWidth;
     private final Integer mapHeight;
@@ -14,9 +16,11 @@ public class RectangularMap extends AbstractWorldMap {
 
     @Override
     public Object objectAt(Vector2d position) {
-        for (Animal animal : animals) {
-            if (animal.getPosition().equals(position)) {
-                return animal;
+        for (Map.Entry<Vector2d, Animal> entry : animalsMap.entrySet()) {
+            Vector2d key = entry.getKey();
+            Animal value = entry.getValue();
+            if (key == position) {
+                return value;
             }
         }
         return null;
