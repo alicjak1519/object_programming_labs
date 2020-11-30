@@ -11,7 +11,9 @@ public class GrassField extends AbstractWorldMap {
 
     public GrassField(int grassNumber) {
         for (int i = 0; i < grassNumber; i++) {
-            grasses.add(new Grass(generateRandomUnoccupiedVector((int) sqrt(grassNumber * 10))));
+            Grass newGrass = new Grass(generateRandomUnoccupiedVector((int) sqrt(grassNumber * 10)));
+            grassesMap.put(newGrass.getPosition(), newGrass);
+            grasses.add(newGrass);
         }
     }
 
@@ -37,22 +39,40 @@ public class GrassField extends AbstractWorldMap {
         return true;
     }
 
-
     @Override
     public Object objectAt(Vector2d position) {
         for (Map.Entry<Vector2d, Animal> entry : animalsMap.entrySet()) {
             Vector2d key = entry.getKey();
             Animal value = entry.getValue();
-            if (key == position) {
+            if (key.x == position.x && key.y == position.y) {
                 return value;
             }
         }
-        for (Grass grass : grasses) {
-            if (grass.getPosition().equals(position)) {
-                return grass;
+        for (Map.Entry<Vector2d, Grass> entry : grassesMap.entrySet()) {
+            Vector2d key = entry.getKey();
+            Grass value = entry.getValue();
+            if (key.x == position.x && key.y == position.y) {
+                return value;
             }
         }
         return null;
+    }
+
+    @Override
+    public boolean isOccupied(Vector2d position) {
+        for (Map.Entry<Vector2d, Animal> entry : animalsMap.entrySet()) {
+            Vector2d key = entry.getKey();
+            if (key.x == position.x && key.y == position.y) {
+                return true;
+            }
+        }
+        for (Map.Entry<Vector2d, Grass> entry : grassesMap.entrySet()) {
+            Vector2d key = entry.getKey();
+            if (key.x == position.x && key.y == position.y) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public Vector2d findTheSmallestVector() {

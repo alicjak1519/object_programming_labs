@@ -4,8 +4,8 @@ import static org.junit.Assert.*;
 
 
 public class AnimalTest {
-    RectangularMap map = new RectangularMap(4,4);
-    Animal squirrel = new Animal("Squirrel John", map);
+    RectangularMap map = new RectangularMap(4, 4);
+    Animal squirrel = new Animal(map);
 
     @Test
     public void animalOrientationTest() {
@@ -28,7 +28,7 @@ public class AnimalTest {
         for (MoveDirection action : actions) {
             squirrel.move(action);
         }
-        assertEquals(squirrel.getPosition(), new Vector2d(2,2));
+        assertEquals(squirrel.getPosition(), new Vector2d(2, 2));
     }
 
     @Test

@@ -1,27 +1,21 @@
 import java.util.ArrayList;
 import java.util.List;
 
-public class Animal {
-    private final String name;
-    private MapDirection mapDirection = MapDirection.NORTH;
-    private Vector2d position = new Vector2d(2, 2);
+public class Animal extends AbstractWorldMapElement {
+    private MapDirection mapDirection;
     private final IWorldMap thisMap;
-    private final List<IPositionChangeObserver> observers = new ArrayList();
+    private final List<IPositionChangeObserver> observers;
 
 
-    public Animal(String animalName, IWorldMap map) {
-        name = animalName;
-        thisMap = map;
+    public Animal(IWorldMap map) {
+        this(map, new Vector2d(2, 2));
     }
 
-    public Animal(String animalName, IWorldMap map, Vector2d initialPosition) {
-        name = animalName;
+    public Animal(IWorldMap map, Vector2d initialPosition) {
         thisMap = map;
         position = initialPosition;
-    }
-
-    public Vector2d getPosition() {
-        return position;
+        mapDirection = MapDirection.NORTH;
+        observers = new ArrayList();
     }
 
     public MapDirection getMapDirection() {

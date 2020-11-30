@@ -15,19 +15,19 @@ public class GrassFieldTest {
 
     @Test
     public void canMoveToNonEmptyMapTest() {
-        map.place(new Animal("Squirrel Julia", map, new Vector2d(3, 4)));
+        map.place(new Animal(map, new Vector2d(3, 4)));
         assertFalse(map.canMoveTo(new Vector2d(3, 4)));
     }
 
     @Test
     public void placeTest() {
-        map.place(new Animal("Squirrel Julia", map, new Vector2d(3, 4)));
+        map.place(new Animal(map, new Vector2d(3, 4)));
         assertFalse(map.canMoveTo(new Vector2d(3, 4)));
     }
 
     @Test
     public void runTest() {
-        Animal squirrel = new Animal("Squirrel Julia", map, new Vector2d(3, 4));
+        Animal squirrel = new Animal(map, new Vector2d(3, 4));
         map.place(squirrel);
         String[] strDirs = {"f", "f", "f"};
         MoveDirection[] directions = new OptionsParser().parse(strDirs);
@@ -37,7 +37,7 @@ public class GrassFieldTest {
 
     @Test
     public void isOccupiedTest() {
-        Animal squirrel = new Animal("Squirrel Julia", map, new Vector2d(3, 4));
+        Animal squirrel = new Animal(map, new Vector2d(3, 4));
         map.place(squirrel);
         assertTrue(map.isOccupied(new Vector2d(3, 4)));
     }

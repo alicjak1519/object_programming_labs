@@ -7,6 +7,8 @@ public abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObse
     protected Map<Vector2d, Animal> animalsMap = new HashMap<>();
     protected List<Animal> animals = new ArrayList();
 
+    protected Map<Vector2d, Grass> grassesMap = new HashMap();
+
     public abstract boolean canMoveTo(Vector2d position);
 
     public boolean place(Animal animal) {
@@ -31,7 +33,7 @@ public abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObse
     public boolean isOccupied(Vector2d position) {
         for (Map.Entry<Vector2d, Animal> entry : animalsMap.entrySet()) {
             Vector2d key = entry.getKey();
-            if (key == position) {
+            if (key.x == position.x && key.y == position.y) {
                 return true;
             }
         }
